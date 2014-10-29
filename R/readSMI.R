@@ -1,9 +1,9 @@
-#' Read folder
+#' readSMI
 #' 
-#' This function reads all files in a folder.
+#' This function reads SMI eye-tracker files
 #' @param file smi filename to read.
 #' @examples
-#' 1+1 #figure it out!
+#' data = readSMI("AXCPT_Subject_1 Samples.txt")
 
 
 
