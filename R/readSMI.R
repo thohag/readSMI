@@ -2,11 +2,14 @@
 #' 
 #' This function reads all files in a folder.
 #' @param file smi filename to read.
+#' @examples
+#' 1+1 #figure it out!
+
 
 
 readSMI = function(file) {
   
-  library(data.table)
+  require(data.table)
   datas <- read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE)
   msgcol = names(datas)[4]
   datas = data.table(datas)
