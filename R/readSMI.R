@@ -9,7 +9,7 @@
 
 readSMI = function(file) {
   
-  require(data.table)
+
   datas <- read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE)
   msgcol = names(datas)[4]
   datas = data.table(datas)
@@ -27,7 +27,7 @@ readSMI = function(file) {
   
   datas = datas[Type == "SMP",]
   
-  datas <- datas[, eval(msgcol):=as.numeric(get(msgcol))]
+  datas <- datas[, eval(msgcol):=as.numeric(get(msgcol))] #make sure it is actually numeric!
   
   return(datas)
   
