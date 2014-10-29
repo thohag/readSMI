@@ -12,6 +12,6 @@ readSMI(file)
 This function reads all files in a folder.
 }
 \examples{
-figure it out!
+1+1 #figure it out!
 }
 
