@@ -10,10 +10,12 @@
 readSMI = function(file) {
   
 
-  datas <- read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE)
+  datas <- data.table(read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE))
   msgcol = names(datas)[4]
-  datas = data.table(datas)
-  datas[Type == "MSG", MSG:=strsplit(get(msgcol),"# Message: ")[[1]][2] ,by=Time]
+
+  start = nchar("# Message: ")+1
+  datas[Type == "MSG", MSG:=substring(get(msgcol),start) ,by=Time]
+  #datas[Type == "MSG", MSG:=strsplit(get(msgcol),"# Message: ")[[1]][2] ,by=Time]
   
   repeat.before = function(x) {   # repeats the last non NA value. Keeps leading NA
     ind = which(!is.na(x))      # get positions of nonmissing values
@@ -23,7 +25,8 @@ readSMI = function(file) {
       c(ind, length(x) + 1) )) # diffing the indices + length yields how often 
   } 
   
-  datas$MSG = repeat.before(datas$MSG)
+  #datas$MSG = repeat.before(datas$MSG)
+  datas[, MSG:=repeat.before(MSG)]
   
   datas = datas[Type == "SMP",]
   
