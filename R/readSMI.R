@@ -9,10 +9,10 @@
 
 readSMI = function(file) {
   
-
-  datas <- data.table(read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE))
+  datas <- readFast(file)
+  #datas <- data.table(read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE))
   msgcol = names(datas)[4]
-
+    
   start = nchar("# Message: ")+1
   datas[Type == "MSG", MSG:=substring(get(msgcol),start) ,by=Time]
   #datas[Type == "MSG", MSG:=strsplit(get(msgcol),"# Message: ")[[1]][2] ,by=Time]
@@ -33,5 +33,15 @@ readSMI = function(file) {
   datas <- datas[, eval(msgcol):=as.numeric(get(msgcol))] #make sure it is actually numeric!
   
   return(datas)
+  
+}
+
+readFast = function(file) {
+  tab5rows <- read.table(file, header = TRUE, skip=38, sep="\t", nrows = 5, stringsAsFactors=F)
+  classes <- sapply(tab5rows, class)
+  #tabAll <- read.table(file, header = TRUE, skip=38, sep="\t", colClasses = classes)
+  
+  classes[4][[1]] = "character"
+  return(data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38, colClasses = classes)))
   
 }
