@@ -5,11 +5,11 @@ Reads SMI eye-tracking files.
 
 ###How install:##
 
-`install.packages("devtools")`
+`install.packages("devtools")
 
-`library(devtools)`
+library(devtools)
 
-`install_github("thohag/readSMI")`
+install_github("thohag/readSMI")`
 
 ###How to use:###
 
