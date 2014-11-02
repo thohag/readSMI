@@ -14,5 +14,9 @@ install_github("thohag/readSMI")
 ```
 
 ###How to use:###
+Convert your iViewX data files (idf) to plain text with the IDF Converter before using this package.
 
-`data = readSMI("IDF_Export.txt")`
+```R
+library(readSMI)
+data = readSMI("plain_text_idf_export.txt")
+```
