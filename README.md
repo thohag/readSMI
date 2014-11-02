@@ -3,16 +3,14 @@ readSMI
 
 Reads SMI eye-tracking files.
 
-How install:
-====
+###How install:##
 
-install.packages("devtools")
+`install.packages("devtools")`
 
-library(devtools)
+`library(devtools)`
 
-install_github("thohag/readSMI")
+`install_github("thohag/readSMI")`
 
-How to use:
-====
+###How to use:###
 
-data = readSMI("IDF_Export.txt")
+`data = readSMI("IDF_Export.txt")`
