@@ -3,13 +3,11 @@ readSMI
 
 Reads SMI eye-tracking files.
 
-###How install:##
+###How to install:##
 
 ```R
 install.packages("devtools")
-
 library(devtools)
-
 install_github("thohag/readSMI")
 ```
 
