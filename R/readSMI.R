@@ -37,16 +37,30 @@ readSMI = function(file) {
 }
 
 readFast = function(file) {
-  tab5rows <- read.table(file, header = TRUE, skip=38, sep="\t", nrows = 5, stringsAsFactors=F)
-  classes <- sapply(tab5rows, class)
-  #tabAll <- read.table(file, header = TRUE, skip=38, sep="\t", colClasses = classes)
+
+  result = tryCatch({
+    
+    tab5rows <- read.table(file, header = TRUE, skip=38, sep="\t", nrows = 5, stringsAsFactors=F)
+    classes <- sapply(tab5rows, class)
+    #tabAll <- read.table(file, header = TRUE, skip=38, sep="\t", colClasses = classes)
+    
+    gottime = names(classes)[names(classes) == "Time"]
+    if (length(gottime) != 0) {
+      classes[gottime][[1]] = "numeric"
+    }
+    
+    classes[4][[1]] = "character"
+    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38, colClasses = classes))
+    
+  }, warning = function(warn) {
+    
+  }, error = function(error) {
+    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38))
+  }, finally={
+    
+  })
   
-  gottime = names(classes)[names(classes) == "Time"]
-  if (length(gottime) != 0) {
-    classes[gottime][[1]] = "numeric"
-  }
+  return(result)
   
-  classes[4][[1]] = "character"
-  return(data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38, colClasses = classes)))
   
 }
