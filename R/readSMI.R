@@ -40,7 +40,14 @@ readFast = function(file) {
 
   result = tryCatch({
     
-    tab5rows <- read.table(file, header = TRUE, skip=38, sep="\t", nrows = 5, stringsAsFactors=F)
+    nlines = 50
+    first <- scan(file, what = "", sep = "\n", quote = "\"", 
+                  nlines = nlines, quiet = TRUE, skip = 0, strip.white = TRUE, 
+                  comment.char = "#", blank.lines.skip = TRUE, skipNul = TRUE
+    )
+    skip = nlines-length(first)
+    
+    tab5rows <- read.table(file, header = TRUE, skip=skip, sep="\t", nrows = 5, stringsAsFactors=F)
     classes <- sapply(tab5rows, class)
     #tabAll <- read.table(file, header = TRUE, skip=38, sep="\t", colClasses = classes)
     
@@ -50,12 +57,12 @@ readFast = function(file) {
     }
     
     classes[4][[1]] = "character"
-    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38, colClasses = classes))
+    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=skip, colClasses = classes))
     
   }, warning = function(warn) {
     
   }, error = function(error) {
-    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=38))
+    data.table(read.table(file = file, header = TRUE, sep = "\t", quote = "\"",  fill = TRUE, comment.char = "", skip=skip))
   }, finally={
     
   })
