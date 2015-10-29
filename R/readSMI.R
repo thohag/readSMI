@@ -30,6 +30,10 @@ readSMI = function(file) {
   
   datas = datas[Type == "SMP",]
   
+  if (is.factor(datas[,msgcol,with=F][[1]])) {
+    datas[, eval(msgcol):=as.character(get(msgcol))]
+  }
+  
   datas <- datas[, eval(msgcol):=as.numeric(get(msgcol))] #make sure it is actually numeric!
   
   return(datas)
