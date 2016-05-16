@@ -7,4 +7,6 @@ Author: thohag
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: ReadSMI
 License: MIT
-Depends: data.table
+Depends:
+    data.table
+RoxygenNote: 5.0.1
