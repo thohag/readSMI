@@ -136,6 +136,8 @@ readEvents = function(eventsfile, data) {
     
     data[, SaccadeL:=repeat.before(SaccadeL)]
     data[is.na(SaccadeL),SaccadeL:=0]
+  } else {
+    data[,SaccadeL:=0]
   }
   
   #Saccade Right
@@ -149,6 +151,8 @@ readEvents = function(eventsfile, data) {
     
     data[, SaccadeR:=repeat.before(SaccadeR)]
     data[is.na(SaccadeR),SaccadeR:=0]
+  } else {
+    data[,SaccadeR:=0]
   }
   
 }
