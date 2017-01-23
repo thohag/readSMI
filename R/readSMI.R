@@ -94,7 +94,7 @@ readEvents = function(eventsfile, data) {
     rep(x[ind], times = diff(c(ind, length(x) + 1) ))
   }
   
-  #Left
+  #Blink Left
   blinksL = blinks[blinks$V1 == "Blink L",]
   if (nrow(blinksL) > 0) {
     blinksL = transform(blinksL, V4 = as.numeric(as.character(V4)))
@@ -109,7 +109,7 @@ readEvents = function(eventsfile, data) {
 
   
   
-  #Right
+  #Blink Right
   blinksR = blinks[blinks$V1 == "Blink R",]
   if (nrow(blinksR) > 0) {
     blinksR = transform(blinksR, V4 = as.numeric(as.character(V4)))
@@ -120,6 +120,35 @@ readEvents = function(eventsfile, data) {
     
     data[, BlinkR:=repeat.before(BlinkR)]
     data[is.na(BlinkR),BlinkR:=0]
+  }
+  
+  
+  
+  
+  #Saccade Left
+  saccadesL = blinks[blinks$V1 == "Saccade L",]
+  if (nrow(saccadesL) > 0) {
+    saccadesL = transform(saccadesL, V4 = as.numeric(as.character(V4)))
+    saccadesL = transform(saccadesL, V5 = as.numeric(as.character(V5)))
+    
+    data[Time %in% saccadesL$V4,SaccadeL:=1]
+    data[Time %in% saccadesL$V5,SaccadeL:=0]
+    
+    data[, SaccadeL:=repeat.before(SaccadeL)]
+    data[is.na(SaccadeL),SaccadeL:=0]
+  }
+  
+  #Saccade Right
+  saccadesR = blinks[blinks$V1 == "Saccade R",]
+  if (nrow(saccadesR) > 0) {
+    saccadesR = transform(saccadesR, V4 = as.numeric(as.character(V4)))
+    saccadesR = transform(saccadesR, V5 = as.numeric(as.character(V5)))
+    
+    data[Time %in% saccadesR$V4,SaccadeR:=1]
+    data[Time %in% saccadesR$V5,SaccadeR:=0]
+    
+    data[, SaccadeR:=repeat.before(SaccadeR)]
+    data[is.na(SaccadeR),SaccadeR:=0]
   }
   
 }
