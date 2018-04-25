@@ -5,9 +5,10 @@
 #' @param msgcolposition column of MSG data (optional)
 #' @param msgprefix prefix to remove from MSG data (optional)
 #' @param eventsfile events file for merging with main file (optional / experimental)
+#' @param repeatmsg repeat MSG data until next MSG (default: TRUE)
 #' @examples
 #' data = readSMI("AXCPT_Subject_1 Samples.txt")
-readSMI = function(file, msgcolposition=4, msgprefix="# Message: ", eventsfile=NULL) {
+readSMI = function(file, msgcolposition=4, msgprefix="# Message: ", eventsfile=NULL, repeatmsg=TRUE) {
   
   datas <- readFast(file, msgcolposition)
   #datas <- data.table(read.csv(file=file, header=T, sep="\t", skip=38, stringsAsFactors=FALSE))
@@ -28,8 +29,22 @@ readSMI = function(file, msgcolposition=4, msgprefix="# Message: ", eventsfile=N
         c(ind, length(x) + 1) )) # diffing the indices + length yields how often 
     } 
     
-    #datas$MSG = repeat.before(datas$MSG)
-    datas[, MSG:=repeat.before(MSG)]
+    repeat.one = function(x) {
+      len = length(x)
+      ind = which(!is.na(x))
+      nind = ind+1
+      x[nind] = x[ind]
+      x[ind] = NA
+      x = x[1:len]
+      return(x)
+    }
+    
+
+    if (repeatmsg) {
+      datas[, MSG:=repeat.before(MSG)]
+    } else {
+      datas[, MSG:=repeat.one(MSG)]
+    }
     
     datas = datas[Type == "SMP",]
     
